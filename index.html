@@ -270,11 +270,11 @@
             try{
                 fetch(account)
                 .then(response => response.json())
-                .then(data => {window.open('mailto:'+data.email+'&message='+content, '_blank');})
+                .then(data => {window.open('mailto:'+data.email+'?subject=Sharing%20Code&body='+content, '_blank');})
                 .catch(error => console.error('Error fetching user information:', error));
             } catch(e){
                 alert('Account not found! using default email.');
-                window.open('mailto:user@example.com&message='+content, '_blank');
+                window.open('mailto:user@example.com?subject=Sharing%20Code&body='+content, '_blank');
             }
         }
         function signInWithGoogle() {

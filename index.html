@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaStream IDE</title>
+    <link rel="icon" href="https://icons.getbootstrap.com/assets/icons/box.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+        body {
+            cursor: none;
+            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            background: black;
+            color: white;
+            animation: 3s changeop;
+        }
+        @keyframes changeop {
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+        @keyframes loading {
+            0%{
+                width: 0;
+            }
+            100%{
+                width: 100%;
+            }
+        }
+        button{
+            background: none;
+            border: none;
+            color: white;
+            cursor: none;
+        }
+        a{
+            cursor: none;
+        }
+        #custom-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: none;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease;
+            z-index: 9999;
+            color: white;
+            top: -50px;
+            left: -50px;
+        }
+        #main-body{
+            cursor: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #load{
+            background-image: linear-gradient(to right, cyan, blue);
+            height: 3px;
+            width: 100%;
+            top: 55px;
+            left: 0;
+            position: absolute;
+            animation: 1.5s loading;
+        }
+        #bottom{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: none;
+            height: 55px;
+            width: 100%;
+            display: grid;
+            place-items: center;
+        }
+        #bottom-sec{
+            background-color: green;
+            width: 100%;
+            height: 3px;
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            animation: 1.5s loading;
+        }
+        #view, #file, #Run{
+            background: black;
+            opacity: 1;
+            border: solid 1px cyan;
+            height: 80%;
+            color: white;
+            width: 80%;
+            border-radius: 10px;
+            position: absolute;
+            top: -50000px;
+            left: -50000px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-body"></div>
+    <div id="load"></div>
+    <div id="custom-cursor">
+        <i class="bi bi-box"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+        </svg>
+    </div>
+    <div class="form-floating" style="overflow: auto; position: absolute; top: 58px; left: 0; cursor: none;">
+        <textarea data-bs-theme="dark" class="form-control" placeholder="Write your code here..." id="floatingTextarea2" style="height: 500px; width: 100%; cursor: none;"></textarea>
+        <p>&copy; 2023 Yash12007, All rights reserved.</p>
+    </div>
+    <div id="bottom-sec"></div>
+    <div id="bottom">
+        <div style="display: flex;">
+            <button onclick="fileop()" style="cursor: none;">File</button>
+            <button style="cursor: none;">Save</button>
+            <button style="cursor: none;">Save as</button>
+            <button onclick="view()" style="cursor: none;">View</button>
+            <button style="cursor: none;" onclick="runfile()">Run</button>
+        </div>
+    </div>
+    <div id="view">
+        <h3>Editor Style</h3>
+        <div style="display: flex;">
+            <div class="dropdown" data-bs-theme="dark">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Font family
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" style="font-family: arial;">Arial</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: calibri;">Calibri</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Times New Roman', Times, serif;">Times New Roman</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Helvetica', sans-serif;">Helvetica</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Georgia', serif;">Georgia</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Verdana', sans-serif;">Verdana</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Courier New', Courier, monospace;">Courier New</a></li>
+                    <li><a class="dropdown-item" href="#" style="font-family: 'Arial Narrow', sans-serif;">Arial Narrow</a></li>
+                </ul>
+            </div>
+            <div class="dropdown" data-bs-theme="dark">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Font size
+                </a>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">12px</a></li>
+                <li><a class="dropdown-item" href="#">14px</a></li>
+                <li><a class="dropdown-item" href="#">16px</a></li>
+                <li><a class="dropdown-item" href="#">18px</a></li>
+                <li><a class="dropdown-item" href="#">20px</a></li>
+                <li><a class="dropdown-item" href="#">22px</a></li>
+                <li><a class="dropdown-item" href="#">24px</a></li>
+                <li><a class="dropdown-item" href="#">26px</a></li>
+                <li><a class="dropdown-item" href="#">28px</a></li>
+                <li><a class="dropdown-item" href="#">30px</a></li>
+                <li><a class="dropdown-item" href="#">32px</a></li>
+                <li><a class="dropdown-item" href="#">34px</a></li>
+                <li><a class="dropdown-item" href="#">36px</a></li>
+                <li><a class="dropdown-item" href="#">38px</a></li>
+                <li><a class="dropdown-item" href="#">40px</a></li>
+                <li><a class="dropdown-item" href="#">42px</a></li>
+                </ul>
+            </div>
+        </div>
+        <button onclick="closeview()" style="cursor: none;">Close</button>
+    </div>
+    <div id="file">
+        <h3>File operators</h3>
+        <button style="cursor: none;" onclick="newfile()">New</button>
+        <div class="mb-3" data-bs-theme="dark">
+            <label for="formFile" class="form-label" style="cursor: none;">Open new file</label>
+            <input class="form-control" type="file" id="formFile" style="cursor: none;">
+        </div>
+        <br>
+        <button onclick="closeop()" style="cursor: none;">Close</button>
+    </div>
+    <div id="Run">
+        <h3>HTML Viewer</h3>
+        <div style="width: 80%; height: 80%; background: white;">
+            <iframe id="htmlviewer" height="100%" width="100%"></iframe>
+        </div>
+        <br>
+        <button onclick="closeviewer()" style="cursor: none;">Close</button>
+        <button onclick="runnewtab()" style="cursor: none;">View file in new tab</button>
+    </div>
+    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="" style="font-family: 'Dancing Script', cursive; color: cyan;">
+            NovaStream
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="https://yash12007.github.io/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="https://yash12007.github.io/Max#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="https://yash12007.github.io/Max#services">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="https://yash12007.github.io/Max/contact.html">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+        let fileurl = '';
+        document.querySelector('#floatingTextarea2').style = "width:"+window.innerWidth+"px; height:"+(window.innerHeight-200)+"px; cursor:none;";
+        function runfile() {
+            if(confirm('Are you sure that you are running HTML file?')==true){
+                const textarea = document.querySelector('#floatingTextarea2');
+                const content = textarea.value;
+                const iframe = document.getElementById('htmlviewer');
+                const dataUri = 'data:text/html;charset=utf-8,' + encodeURIComponent(content);
+                iframe.src = dataUri;
+                const blob = new Blob([content], { type: 'text/plain' });
+                fileurl = URL.createObjectURL(blob);
+                document.getElementById('Run').style.top = '10%';
+                document.getElementById('Run').style.left = '10%';
+            }
+        }
+        function runnewtab(){
+            window.open(fileurl, '_blank');
+        }
+        function closeviewer(){
+            document.getElementById('Run').setAttribute('style', 'top:-50000px; left:-50000px;');
+        }
+        const inp = document.getElementById('formFile');
+        inp.addEventListener('change', function () {
+            const file = inp.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const content = e.target.result;
+                    document.querySelector('#floatingTextarea2').value = content;
+                };
+                reader.readAsText(file);
+            }
+        });
+        function newfile(){
+            if(confirm('Are you sure want to discard changes you have made?')==true){
+                document.querySelector('#floatingTextarea2').value='';
+            }else{
+                saveFile();
+                document.querySelector('#floatingTextarea2').value='';
+            } 
+        }
+        function saveFile() {
+            const textarea = document.querySelector('#floatingTextarea2');
+            const content = textarea.value;
+            const filename = prompt('Enter a filename with extension:');
+            if (filename) {
+                const blob = new Blob([content], { type: 'text/plain' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = filename;
+                a.click();
+            }
+        }
+        function changeFontFamily(fontFamily) {
+            document.querySelector('#floatingTextarea2').style.fontFamily = fontFamily;
+        }
+        function changeFontSize(fontSize) {
+            document.querySelector('#floatingTextarea2').style.fontSize = fontSize;
+        }
+        function updateCursorPosition(event) {
+            const customCursor = document.getElementById("custom-cursor");
+            customCursor.style.left = event.clientX + "px";
+            customCursor.style.top = event.clientY + "px";
+        }
+        function view(){
+            document.getElementById('view').setAttribute('style', 'top:10%; left:10%;');
+        }
+        function closeview(){
+            document.getElementById('view').setAttribute('style', 'top:-50000px; left:-50000px;');
+        }
+        function fileop(){
+            document.getElementById('file').setAttribute('style', 'top:10%; left:10%;');
+        }
+        function closeop(){
+            document.getElementById('file').setAttribute('style', 'top:-50000px; left:-50000px;');
+        }
+        document.addEventListener("mousemove", updateCursorPosition);
+        document.querySelector('#bottom button:nth-child(2)').addEventListener('click', function () {
+            saveFile();
+        });
+        document.querySelector('#bottom button:nth-child(3)').addEventListener('click', function () {
+            saveFile();
+        });
+        document.querySelectorAll('.dropdown-menu a').forEach(item => {
+            item.addEventListener('click', function () {
+                const fontFamily = this.style.fontFamily;
+                changeFontFamily(fontFamily);
+            });
+        });
+        document.querySelectorAll('.dropdown-menu.font-size a').forEach(item => {
+            item.addEventListener('click', function () {
+                const fontSize = this.textContent;
+                changeFontSize(fontSize);
+            });
+        });
+    </script>
+</body>
+</html>
